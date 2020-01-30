@@ -4,6 +4,7 @@ var setup = document.querySelector('.setup');
 setup.classList.remove('hidden');
 var similarListElement = setup.querySelector('.setup-similar-list');
 
+var WIZARD_AMOUNT = 4;
 var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var WIZARD_LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var COAT_COLOR = [
@@ -61,5 +62,5 @@ var appendChildren = function (parent, children) {
   parent.appendChild(fragment);
 };
 
-appendChildren(similarListElement, renderWizards(createWizards(4)));
+appendChildren(similarListElement, renderWizards(createWizards(WIZARD_AMOUNT)));
 setup.querySelector('.setup-similar').classList.remove('hidden');
