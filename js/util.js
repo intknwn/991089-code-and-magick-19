@@ -3,6 +3,8 @@
 window.util = (function () {
   var ESC_KEY = 'Escape';
   var ENTER_KEY = 'Enter';
+  var DEBOUNCE_INTERVAL = 300;
+  var lastTimeout;
 
   return {
     isEscEvent: function (evt) {
@@ -35,20 +37,17 @@ window.util = (function () {
     appendChildren: function (parent, children) {
       var fragment = document.createDocumentFragment();
 
-      for (var i = 0; i < children.length; i++) {
-        fragment.appendChild(children[i]);
-      }
+      var result = children.reduce(function (acc, child) {
+        acc.appendChild(child);
+        return acc;
+      }, fragment);
 
-      parent.appendChild(fragment);
+      parent.appendChild(result);
     },
     getMaxElement: function (arr) {
-      var maxElement = arr[0];
-
-      for (var i = 0; i < arr.length; i++) {
-        maxElement = Math.max(maxElement, arr[i]);
-      }
-
-      return maxElement;
+      return arr.reduce(function (max, next) {
+        return Math.max(max, next);
+      }, arr[0]);
     },
     errorHandler: function (errorMessage) {
       var node = document.createElement('div');
@@ -63,14 +62,16 @@ window.util = (function () {
     },
     isUnique: function (element, array) {
       var result = array.filter(function (currentElement) {
-        if (currentElement === element) {
-          return currentElement;
-        }
-
-        return '';
+        return currentElement === element;
       });
 
-      return result.length > 1 ? false : true;
+      return result.length === 1;
+    },
+    debounce: function (cb) {
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
     }
   };
 })();
